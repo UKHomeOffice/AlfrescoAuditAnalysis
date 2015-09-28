@@ -1,0 +1,19 @@
+{
+  "name": "alfresco-audit-analysis",
+  "version": "0.1.0",
+  "description": "Tracks users through Alfresco's workflows",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/AlfrescoAuditAnalysis.git"
+  },
+  "author": "B & B",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UKHomeOffice/AlfrescoAuditAnalysis/issues"
+  },
+  "homepage": "https://github.com/UKHomeOffice/AlfrescoAuditAnalysis#readme"
+}

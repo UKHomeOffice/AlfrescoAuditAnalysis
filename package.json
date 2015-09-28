@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/UKHomeOffice/AlfrescoAuditAnalysis/issues"
   },
-  "homepage": "https://github.com/UKHomeOffice/AlfrescoAuditAnalysis#readme"
+  "homepage": "https://github.com/UKHomeOffice/AlfrescoAuditAnalysis#readme",
+  "dependencies": {
+    "fs-extra": "^0.24.0",
+    "json2csv": "^2.12.0"
+  }
 }

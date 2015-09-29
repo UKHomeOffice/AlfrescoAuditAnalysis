@@ -46,6 +46,31 @@ function human(data) {
     }
 }
 
+// Determine if a case made it to Dispatch Response by only ever touching one user
+function determineSingleUserDispatch(reportData) {
+    var warning = "";
+    if(typeof reportData.dispatchResponse !== 'undefined') {
+
+        var particpants = [reportData.draftResponseUser,
+            reportData.scsApprovalUser,
+            reportData.spadsApprovalUser,
+            reportData.parlyApprovalUser,
+            reportData.ministersSignOffUser,
+            reportData.lordMinistersSignOffUser,
+            reportData.permSecApprovalUser,
+            reportData.dispatchResponseUser];
+
+        var validParticipants = _.filter(particpants, function(participant){
+            return typeof participant !== 'undefined';
+        });
+
+        if(_.uniq(validParticipants).length === 1) {
+            warning = "WARNING";
+        }
+    }
+    return warning;
+}
+
 function generateCSV(reportDataList) {
     var reportString = '';
     reportString += 'Node, Draft Response, Draft Response User, ' +
@@ -55,7 +80,8 @@ function generateCSV(reportDataList) {
         'Ministers Sign Off, Ministers Sign Off User, ' +
         'Lord Ministers Sign Off, Lord Ministers Sign Off User, ' +
         'Perm Sec Approval, Perm Sec Approval User, ' +
-        'Dispatch Response, Dispatch Response User' +
+        'Dispatch Response, Dispatch Response User, ' +
+        'Single User Warning, ' +
         '\n';
     _.forEach(reportDataList, function(reportData) {
         reportString += reportData.alfrescoNode + ','
@@ -75,6 +101,7 @@ function generateCSV(reportDataList) {
         + human(reportData.permSecApprovalUser) + ','
         + human(reportData.dispatchResponse) + ','
         + human(reportData.dispatchResponseUser) + ','
+        + determineSingleUserDispatch(reportData) + ','
         + '\n';
     });
     fs.writeFileSync("./data/result.csv", reportString);

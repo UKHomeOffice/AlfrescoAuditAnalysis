@@ -71,6 +71,26 @@ function determineSingleUserDispatch(reportData) {
     return warning;
 }
 
+// Determine if no sign off has occurred at all
+function determineNoSignOff(reportData) {
+    var warning = "";
+    if (typeof reportData.dispatchResponse !== 'undefined') {
+
+        var signOffParticipants = [reportData.ministersSignOffUser,
+            reportData.lordMinistersSignOffUser,
+            reportData.permSecApprovalUser];
+
+        var signOffStages = _.filter(signOffParticipants, function(participant) {
+            return typeof participant === 'undefined';
+        });
+
+        if (signOffStages.length === 3) {
+            warning = "WARNING";
+        }
+    }
+    return warning;
+}
+
 function generateCSV(reportDataList) {
     var reportString = '';
     reportString += 'Node, Draft Response, Draft Response User, ' +
@@ -82,6 +102,7 @@ function generateCSV(reportDataList) {
         'Perm Sec Approval, Perm Sec Approval User, ' +
         'Dispatch Response, Dispatch Response User, ' +
         'Single User Warning, ' +
+        'No Sign Off, ' +
         '\n';
     _.forEach(reportDataList, function(reportData) {
         reportString += reportData.alfrescoNode + ','
@@ -102,6 +123,7 @@ function generateCSV(reportDataList) {
         + human(reportData.dispatchResponse) + ','
         + human(reportData.dispatchResponseUser) + ','
         + determineSingleUserDispatch(reportData) + ','
+        + determineNoSignOff(reportData) + ','
         + '\n';
     });
     fs.writeFileSync("./data/result.csv", reportString);
